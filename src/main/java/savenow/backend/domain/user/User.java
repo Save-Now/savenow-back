@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import savenow.backend.domain.image.Image;
 
 /*
  * 유저 테이블
@@ -30,14 +31,17 @@ public class User {
     @Column(nullable = false)
     private String password; // 유저 비밀번호
 
-    @Column(length = 6)
-    private Long birth; // 유저 생년월일 (020202 형식)
+    @Column(nullable = false)
+    private String birth; // 유저 생년월일 (19020202 형식)
 
     @Enumerated
     private Gender gender; // 유저 성별
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Image image;
+
     @Builder
-    public User(Long id, String username, String email, String password, Long birth, Gender gender) {
+    public User(Long id, String username, String email, String password, String birth, Gender gender) {
         this.id = id;
         this.username = username;
         this.email = email;

@@ -13,7 +13,7 @@ public class DummyObject {
                 .username(username)
                 .password(password)
                 .email(email)
-                .birth(000000L)
+                .birth("19991204")
                 .gender(Gender.MALE)
                 .build();
     }
@@ -28,7 +28,7 @@ public class DummyObject {
                 .password(password)
                 .email(email)
                 .gender(Gender.MALE)
-                .birth(000000L)
+                .birth("19991204")
                 .build();
     }
 }
