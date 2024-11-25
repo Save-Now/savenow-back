@@ -3,7 +3,7 @@ package savenow.backend.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import savenow.backend.domain.User;
+import savenow.backend.domain.user.User;
 
 public class UserResDto {
 

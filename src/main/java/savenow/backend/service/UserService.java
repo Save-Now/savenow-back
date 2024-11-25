@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import savenow.backend.domain.User;
-import savenow.backend.domain.UserRepository;
+import savenow.backend.domain.user.User;
+import savenow.backend.domain.user.UserRepository;
 import savenow.backend.dto.user.UserReqDto.JoinReqDto;
 import savenow.backend.dto.user.UserResDto.JoinResDto;
 import savenow.backend.handler.exception.CustomApiException;
@@ -26,14 +26,14 @@ public class UserService {
     // 회원 가입 서비스
     @Transactional
     public JoinResDto join(JoinReqDto joinReqDto) {
-        // 1. 아이디 중복 검사
+        // 아이디 중복 검사
         Optional<User> userOP1 = userRepository.findByEmail(joinReqDto.getEmail());
         if (userOP1.isPresent()) {
             //이메일 중복
             throw new CustomApiException("이미 존재하는 이메일 입니다.");
         }
 
-        // 2. 닉네임 중복 검사
+        //  닉네임 중복 검사
         Optional<User> userOP2 = userRepository.findByUsername(joinReqDto.getUsername());
         if (userOP2.isPresent()) {
             // 닉네임 중복
