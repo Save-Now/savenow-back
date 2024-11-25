@@ -1,0 +1,27 @@
+server:
+  port: 8010
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://savenow.ctsmoom0mww8.us-east-1.rds.amazonaws.com:3306/innodb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 12341234
+  application:
+    name: backend
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    show-sql: true
+logging:
+  level:
+    savenow.backend : debug
