@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     private final Logger log = LoggerFactory.getLogger(getClass()); // 로그 확인용
@@ -45,10 +44,7 @@ public class SecurityConfig {
                 // JWT 서버로 만들어서 세션 사용 안함 jsessionId 서버쪽 관리 X
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
-                        .requestMatchers(
-                                AntPathRequestMatcher.antMatcher("/api/join")
-                        ).permitAll()
+                        .requestMatchers("/api/test","/api/join").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 );
 

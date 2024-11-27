@@ -4,13 +4,21 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.user.Gender;
-import savenow.backend.domain.user.User;
+import savenow.backend.domain.Gender;
+import savenow.backend.domain.Role;
+import savenow.backend.domain.User;
 
 
 public class UserReqDto {
-    @Getter
-    @Setter
+
+    @Getter @Setter
+    public static class LoginReqDto {
+        private String username;
+        private String password;
+    }
+
+
+    @Getter @Setter
     // 조건은 임시로 정해놓은 상태
     public static class JoinReqDto {
         // 회원 이름 : 한글, 영어 숫자 가능, 12자 이내
@@ -42,6 +50,7 @@ public class UserReqDto {
                     .email(email)
                     .birth(birth)
                     .gender(gender)
+                    .role(Role.USER)
                     .build();
         }
 

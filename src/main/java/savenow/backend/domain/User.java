@@ -1,10 +1,9 @@
-package savenow.backend.domain.user;
+package savenow.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import savenow.backend.domain.image.Image;
 
 /*
  * 유저 테이블
@@ -37,17 +36,20 @@ public class User {
     @Enumerated
     private Gender gender; // 유저 성별
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Image image;
+    @Enumerated
+    @Column(nullable = false)
+    private Role role;
 
     @Builder
-    public User(Long id, String username, String email, String password, String birth, Gender gender) {
+    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role) {
+
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.birth = birth;
         this.gender = gender;
+        this.role = role;
     }
 }
 

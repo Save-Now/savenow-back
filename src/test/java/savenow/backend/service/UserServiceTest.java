@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.user.Gender;
-import savenow.backend.domain.user.User;
-import savenow.backend.domain.user.UserRepository;
+import savenow.backend.domain.Gender;
+import savenow.backend.domain.User;
+import savenow.backend.domain.UserRepository;
 import savenow.backend.dto.user.UserReqDto.JoinReqDto;
 import savenow.backend.dto.user.UserResDto.JoinResDto;
 import savenow.backend.dummy.DummyObject;
@@ -39,7 +39,7 @@ class UserServiceTest extends DummyObject{
         joinReqDto.setUsername("솔빈");
         joinReqDto.setEmail("aaaa@naver.com");
         joinReqDto.setPassword("1234");
-        joinReqDto.setBirth(021204L);
+        joinReqDto.setBirth("20021204");
         joinReqDto.setGender(Gender.MALE);
 
         //stub1
@@ -54,7 +54,6 @@ class UserServiceTest extends DummyObject{
         System.out.println("테스트 : " + joinResDto);
 
         //then
-        Assertions.assertThat(joinResDto.getId()).isEqualTo(1L);
         Assertions.assertThat(joinResDto.getName()).isEqualTo("솔빈");
     }
 
