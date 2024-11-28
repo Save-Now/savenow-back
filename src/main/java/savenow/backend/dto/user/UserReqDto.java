@@ -13,7 +13,7 @@ public class UserReqDto {
 
     @Getter @Setter
     public static class LoginReqDto {
-        private String username;
+        private String email;
         private String password;
     }
 

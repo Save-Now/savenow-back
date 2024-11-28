@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -19,6 +21,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import savenow.backend.config.jwt.JwtAuthenticationFilter;
+import savenow.backend.config.jwt.JwtAuthorizationFilter;
+import util.CustomResponseUtil;
 
 @Configuration
 public class SecurityConfig {
@@ -31,6 +36,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //jwt 필터 등록
+    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            builder.addFilter(new JwtAuthorizationFilter(authenticationManager));
+            super.configure(builder);
+        }
+
+        public HttpSecurity build(){
+            return getBuilder();
+        }
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.debug("디버그 : filterChain 빈 등록됨");
@@ -40,11 +60,18 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable) // 리액트로 요청 예정
                 .cors(cors -> cors.configurationSource(configurationSource())) // 자바스크립트 요청 허용
                 .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Iframe 허용 안함
+                .with( new CustomSecurityFilterManager() , c -> c.build())
+                .exceptionHandling(e -> e.authenticationEntryPoint((request, response, oauthException) -> {
+                    CustomResponseUtil.fail(response, "로그인을 진행해 주세요", HttpStatus.UNAUTHORIZED);
+                }))
+                .exceptionHandling(e-> e.accessDeniedHandler((request,response,exception)->{
+                    CustomResponseUtil.fail(response,"권한이 없습니다.", HttpStatus.FORBIDDEN);
+                })) // 동작 되나 ??
 
                 // JWT 서버로 만들어서 세션 사용 안함 jsessionId 서버쪽 관리 X
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test","/api/join").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
+                        .requestMatchers("/api/test", "/api/join", "/api/login").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 );
 
