@@ -71,7 +71,7 @@ public class SecurityConfig {
                 // JWT 서버로 만들어서 세션 사용 안함 jsessionId 서버쪽 관리 X
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test", "/api/join", "/api/login").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
+                        .requestMatchers("/api/test", "/api/join/**", "/api/login").permitAll() // 특정 엔드포인트 인증 없이 접근 가능
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 );
 

@@ -27,17 +27,17 @@ public class UserService {
     @Transactional
     public JoinResDto join(JoinReqDto joinReqDto) {
         // 아이디 중복 검사
-        Optional<User> userOP1 = userRepository.findByEmail(joinReqDto.getEmail());
-        if (userOP1.isPresent()) {
+        int nd = nameDuplicateCheck(joinReqDto.getUsername());
+        if (nd == 1) {
             //이메일 중복
-            throw new CustomApiException("이미 존재하는 이메일 입니다.");
+            throw new CustomApiException("동일한 사용자 이름이 존재합니다.");
         }
 
         //  닉네임 중복 검사
-        Optional<User> userOP2 = userRepository.findByUsername(joinReqDto.getUsername());
-        if (userOP2.isPresent()) {
+        int ed = emailDuplicateCheck(joinReqDto.getEmail());
+        if (ed == 1) {
             // 닉네임 중복
-            throw new CustomApiException("동일한 사용자 이름이 존재합니다.");
+            throw new CustomApiException("이미 존재하는 이메일 입니다.");
         }
 
         // 패스워드 인코딩 + 회원가입
@@ -45,6 +45,23 @@ public class UserService {
 
         // DTO 응답
         return new JoinResDto(newUser);
+    }
+
+    // 이메일 중복 검사 // 에러 -> 1 정상 -> 0
+    public int emailDuplicateCheck(String email) {
+        Optional<User> userOP = userRepository.findByEmail(email);
+        if (userOP.isPresent()){
+            return 1;
+        }
+        return 0;
+    }
+
+    public int nameDuplicateCheck(String username) {
+        Optional<User> userOP = userRepository.findByUsername(username);
+        if (userOP.isPresent()) {
+            return 1;
+        }
+        return 0;
     }
 
 }
