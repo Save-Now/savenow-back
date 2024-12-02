@@ -1,4 +1,4 @@
-package savenow.backend.domain.user;
+package savenow.backend.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
