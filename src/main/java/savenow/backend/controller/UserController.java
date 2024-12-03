@@ -19,34 +19,19 @@ import static savenow.backend.dto.user.UserReqDto.*;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController // 데이터 리턴 서버
-public class UserController {
+public class   UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody @Valid JoinReqDto joinReqDto, BindingResult bindingResult) {
-
-        // 유효성 검사
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(new ResponseDto<>(-1, "유효성 검사 실패", errorMap), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> join(@RequestBody  JoinReqDto joinReqDto) {
 
         JoinResDto joinResDto = userService.join(joinReqDto);
         return new ResponseEntity<>(new ResponseDto<>(1, "회원가입 성공", joinResDto), HttpStatus.CREATED);
+
     }
 
-    @PostMapping("/join/emailCheck")
-    public ResponseEntity<?> emailCheck(@RequestBody @Valid EmailCheckDto emailCheckDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(new ResponseDto<>(-1, "유효성 검사 실패", errorMap), HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/join/emailCheck")
+    public ResponseEntity<?> emailCheck(@RequestBody  EmailCheckDto emailCheckDto, BindingResult bindingResult) {
         int ed = userService.emailDuplicateCheck(emailCheckDto.getEmail());
         if(ed == 1) {
             return new ResponseEntity<>(new ResponseDto<>(-1,"이메일 중복 검사 실패",null),HttpStatus.BAD_REQUEST);
@@ -54,15 +39,8 @@ public class UserController {
         return new ResponseEntity<>(new ResponseDto<>(1, "이메일 중복 검사 성공", null), HttpStatus.OK);
     }
 
-    @PostMapping("/join/usernameCheck")
-    public ResponseEntity<?> usernameCheck(@RequestBody @Valid NameCheckDto nameCheckDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(new ResponseDto<>(-1, "유효성 검사 실패", errorMap), HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/join/usernameCheck")
+    public ResponseEntity<?> usernameCheck(@RequestBody NameCheckDto nameCheckDto) {
         int nd = userService.nameDuplicateCheck(nameCheckDto.getUsername());
         if (nd == 1) {
             return new ResponseEntity<>(new ResponseDto<>(-1, "닉네임 중복 검사 실패", null), HttpStatus.BAD_REQUEST);
