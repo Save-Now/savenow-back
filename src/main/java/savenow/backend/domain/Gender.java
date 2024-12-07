@@ -1,4 +1,4 @@
-package savenow.backend.domain.user;
+package savenow.backend.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
