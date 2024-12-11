@@ -1,18 +1,13 @@
 package savenow.backend.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import savenow.backend.dto.ResponseDto;
 import savenow.backend.dto.user.UserResDto.JoinResDto;
 import savenow.backend.service.UserService;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import static savenow.backend.dto.user.UserReqDto.*;
 
@@ -31,7 +26,7 @@ public class   UserController {
     }
 
     @GetMapping("/join/emailCheck")
-    public ResponseEntity<?> emailCheck(@RequestBody  EmailCheckDto emailCheckDto, BindingResult bindingResult) {
+    public ResponseEntity<?> emailCheck(@RequestParam  EmailCheckDto emailCheckDto) {
         int ed = userService.emailDuplicateCheck(emailCheckDto.getEmail());
         if(ed == 1) {
             return new ResponseEntity<>(new ResponseDto<>(-1,"이메일 중복 검사 실패",null),HttpStatus.BAD_REQUEST);
@@ -40,7 +35,7 @@ public class   UserController {
     }
 
     @GetMapping("/join/usernameCheck")
-    public ResponseEntity<?> usernameCheck(@RequestBody NameCheckDto nameCheckDto) {
+    public ResponseEntity<?> usernameCheck(@RequestParam NameCheckDto nameCheckDto) {
         int nd = userService.nameDuplicateCheck(nameCheckDto.getUsername());
         if (nd == 1) {
             return new ResponseEntity<>(new ResponseDto<>(-1, "닉네임 중복 검사 실패", null), HttpStatus.BAD_REQUEST);
