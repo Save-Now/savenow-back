@@ -46,4 +46,11 @@ public class UserService {
             throw new IllegalArgumentException("유저를 찾을 수 없습니다.");
         }
     }
+
+    // 이메일로 닉네임 조회
+    public String getNicknameByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> user.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    }
 }
