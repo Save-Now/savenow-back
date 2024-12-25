@@ -21,6 +21,15 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column
+    private Long amount;
+
+    @Column
+    private String memo;
+
+    @Column
+    private LocalDateTime date;
 
     @CreatedDate //Insert
     @Column(nullable = false)
@@ -34,8 +43,11 @@ public class Account {
     private User user;
 
     @Builder
-    public Account(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+    public Account(Long id, Long amount, String memo, LocalDateTime date, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
         this.id = id;
+        this.amount = amount;
+        this.memo = memo;
+        this.date = date;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.user = user;
