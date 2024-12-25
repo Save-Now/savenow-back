@@ -12,13 +12,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
-import savenow.backend.domain.Gender;
-import savenow.backend.domain.UserRepository;
+import savenow.backend.domain.user.Gender;
+import savenow.backend.domain.user.UserRepository;
 import savenow.backend.dto.user.UserReqDto;
 import savenow.backend.dummy.DummyObject;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static savenow.backend.dto.user.UserReqDto.*;
@@ -28,133 +26,43 @@ import static savenow.backend.dto.user.UserReqDto.*;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class UserControllerTest extends DummyObject {
-//
-//    @Autowired
-//    private MockMvc mvc;
-//    @Autowired
-//    private ObjectMapper om;
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private EntityManager em;
-//
-//    @BeforeEach
-//    public void setup() {
-//        userRepository.save(newUser("솔빈", "qwer@naver.com"));
-//        em.clear();
-//    }
-//
-//    @Test
-//    public void 회원가입_성공() throws Exception{
-//        //given
-//        JoinReqDto joinReqDto = new JoinReqDto();
-//        joinReqDto.setUsername("빈솔");
-//        joinReqDto.setEmail("abcd@naver.com");
-//        joinReqDto.setPassword("12341234");
-//        joinReqDto.setGender(Gender.MALE);
-//        joinReqDto.setBirth("20021204");
-//
-//        String requestBody = om.writeValueAsString(joinReqDto);
-//
-//        //when
-//        ResultActions resultActions = mvc
-//                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
-//        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//        System.out.println("테스트 : " + responseBody);
-//
-//        //then
-//        resultActions.andExpect(status().isCreated());
-//    }
-//
-//    @Test
-//    public void 회원가입_실패_이름겹침() throws Exception{
-//        //given
-//        JoinReqDto joinReqDto = new JoinReqDto();
-//        joinReqDto.setUsername("솔빈");
-//        joinReqDto.setEmail("abcd@naver.com");
-//        joinReqDto.setPassword("12341234");
-//        joinReqDto.setGender(Gender.MALE);
-//        joinReqDto.setBirth("20021204");
-//
-//        String requestBody = om.writeValueAsString(joinReqDto);
-//
-//        //when
-//        ResultActions resultActions = mvc
-//                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
-//        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//        System.out.println("테스트 : " + responseBody);
-//
-//        //then
-//        resultActions.andExpect(status().isBadRequest());
-//    }
-//
-//    @Test
-//    public void 회원가입_실패_이메일겹침() throws Exception{
-//        //given
-//        JoinReqDto joinReqDto = new JoinReqDto();
-//        joinReqDto.setUsername("빈솔");
-//        joinReqDto.setEmail("qwer@naver.com");
-//        joinReqDto.setPassword("12341234");
-//        joinReqDto.setGender(Gender.MALE);
-//        joinReqDto.setBirth("20021204");
-//
-//        String requestBody = om.writeValueAsString(joinReqDto);
-//
-//        //when
-//        ResultActions resultActions = mvc
-//                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
-//        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//        System.out.println("테스트 : " + responseBody);
-//
-//        //then
-//        resultActions.andExpect(status().isBadRequest());
-//    }
-//
-//    @Test
-//    public void 비밀번호_8자리_이하() throws Exception{
-//        //given
-//        JoinReqDto joinReqDto = new JoinReqDto();
-//        joinReqDto.setUsername("빈솔");
-//        joinReqDto.setEmail("abcd@naver.com");
-//        joinReqDto.setPassword("1234");
-//        joinReqDto.setGender(Gender.MALE);
-//        joinReqDto.setBirth("20021204");
-//
-//        String requestBody = om.writeValueAsString(joinReqDto);
-//
-//        //when
-//        ResultActions resultActions = mvc
-//                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
-//        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//        System.out.println("테스트 : " + responseBody);
-//
-//        //then
-//        resultActions.andExpect(status().isBadRequest());
-//    }
-//
-//    @Test
-//    public void 잘못된생년월일() throws Exception{
-//        //given
-//        JoinReqDto joinReqDto = new JoinReqDto();
-//        joinReqDto.setUsername("빈솔");
-//        joinReqDto.setEmail("abcd@naver.com");
-//        joinReqDto.setPassword("12341234");
-//        joinReqDto.setGender(Gender.MALE);
-//        joinReqDto.setBirth("021204");
-//
-//        String requestBody = om.writeValueAsString(joinReqDto);
-//
-//        //when
-//        ResultActions resultActions = mvc
-//                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
-//        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//        System.out.println("테스트 : " + responseBody);
-//
-//        //then
-//        resultActions.andExpect(status().isBadRequest());
-//    }
-//
-//
-//
+
+    @Autowired
+    private MockMvc mvc;
+    @Autowired
+    private ObjectMapper om;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private EntityManager em;
+
+    @BeforeEach
+    public void setup() {
+        userRepository.save(newUser("솔빈", "qwer@naver.com"));
+        em.clear();
+    }
+
+    @Test
+    public void 회원가입_성공() throws Exception{
+        //given
+        JoinReqDto joinReqDto = new JoinReqDto();
+        joinReqDto.setUsername("빈솔");
+        joinReqDto.setEmail("abcd@naver.com");
+        joinReqDto.setPassword("12341234");
+        joinReqDto.setGender(Gender.MALE);
+        joinReqDto.setBirth("20021204");
+
+        String requestBody = om.writeValueAsString(joinReqDto);
+
+        //when
+        ResultActions resultActions = mvc
+                .perform(post("/api/join").content(requestBody).contentType(MediaType.APPLICATION_JSON));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        //then
+        resultActions.andExpect(status().isCreated());
+    }
+
 
 }
