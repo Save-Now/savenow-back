@@ -1,12 +1,11 @@
 package savenow.backend.dto.user;
 
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.Gender;
-import savenow.backend.domain.Role;
-import savenow.backend.domain.User;
+import savenow.backend.domain.user.Gender;
+import savenow.backend.domain.user.Role;
+import savenow.backend.domain.user.User;
 
 
 public class UserReqDto {

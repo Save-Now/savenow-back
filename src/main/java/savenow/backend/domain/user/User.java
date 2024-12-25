@@ -1,4 +1,4 @@
-package savenow.backend.domain;
+package savenow.backend.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;

@@ -1,9 +1,9 @@
 package savenow.backend.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.Gender;
-import savenow.backend.domain.Role;
-import savenow.backend.domain.User;
+import savenow.backend.domain.user.Gender;
+import savenow.backend.domain.user.Role;
+import savenow.backend.domain.user.User;
 
 public class DummyObject {
     protected static User newUser(String username, String email) {

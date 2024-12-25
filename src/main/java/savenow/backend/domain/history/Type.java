@@ -1,15 +1,12 @@
-package savenow.backend.domain;
+package savenow.backend.domain.history;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/*
- * 성별
- */
 @AllArgsConstructor
 @Getter
-public enum Gender {
-    MALE("남자"), FEMALE("여자");
+public enum Type {
 
+    INCOME("수입"), OUTCOME("지출");
     private String value;
 }
