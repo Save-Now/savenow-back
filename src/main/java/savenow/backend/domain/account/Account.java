@@ -21,10 +21,6 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private String name;
-    @Column
-    private Long budget;
 
     @CreatedDate //Insert
     @Column(nullable = false)
@@ -34,13 +30,12 @@ public class Account {
     private LocalDateTime updatedAt;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @Builder
-    public Account(Long id, String name, Long budget, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+    public Account(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
         this.id = id;
-        this.name = name;
-        this.budget = budget;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.user = user;
