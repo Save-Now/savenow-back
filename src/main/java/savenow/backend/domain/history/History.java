@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import savenow.backend.domain.account.Account;
+import savenow.backend.domain.user.User;
 
 import java.time.LocalDateTime;
 
@@ -17,36 +17,39 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "history_tb")
 public class History {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Column
     private Long amount;
+
     @Column
     private String memo;
-    @Column // 수입. 지출을 구분
-    private Type type;
-    @Column // 지출 유형을 구분
-    private Category category;
+
     @Column
     private LocalDateTime date;
 
+    @CreatedDate //Insert
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
     @LastModifiedDate //Update
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Account account;
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @Builder
-    public History(Long id, Long amount, String memo, Type type, Category category, LocalDateTime date, LocalDateTime updatedAt, Account account) {
+    public History(Long id, Long amount, String memo, LocalDateTime date, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
         this.id = id;
         this.amount = amount;
         this.memo = memo;
-        this.type = type;
-        this.category = category;
         this.date = date;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.account = account;
+        this.user = user;
     }
 }

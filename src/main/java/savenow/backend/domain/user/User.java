@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import savenow.backend.domain.account.Account;
+import savenow.backend.domain.category.Category;
+import savenow.backend.domain.history.History;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 유저 테이블
@@ -41,11 +45,12 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Account account;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Category> categories = new ArrayList<>();
+
 
     @Builder
-    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role, Account account) {
+    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role, History history) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -53,7 +58,12 @@ public class User {
         this.birth = birth;
         this.gender = gender;
         this.role = role;
-        this.account = account;
     }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.setUser(this);
+    }
+
 }
 
