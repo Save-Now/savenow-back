@@ -1,12 +1,17 @@
 package savenow.backend.domain.category;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import savenow.backend.domain.account.Account;
+import lombok.Setter;
+import savenow.backend.domain.user.User;
+
+import java.util.Objects;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "category_tb")
 public class Category {
@@ -19,12 +24,22 @@ public class Category {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Category(Long id, String name, Account account) {
+    @Builder
+    public Category(Long id, String name, User user) {
         this.id = id;
         this.name = name;
-        this.account = account;
+        this.user = user;
     }
+
+    @Override
+    public boolean equals(Object c){
+         if (this == c) return true;
+         if (c == null || getClass()  != c.getClass()) return false;
+         Category category = (Category) c;
+         return Objects.equals(name, category.name);
+    }
+
 }

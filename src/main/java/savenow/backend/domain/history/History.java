@@ -1,4 +1,4 @@
-package savenow.backend.domain.account;
+package savenow.backend.domain.history;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "account_tb")
-public class Account {
+@Table(name = "history_tb")
+public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +38,12 @@ public class Account {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
     @Builder
-    public Account(Long id, Long amount, String memo, LocalDateTime date, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+    public History(Long id, Long amount, String memo, LocalDateTime date, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
         this.id = id;
         this.amount = amount;
         this.memo = memo;
