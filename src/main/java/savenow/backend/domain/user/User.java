@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import savenow.backend.domain.category.Category;
 import savenow.backend.domain.history.History;
+import savenow.backend.domain.userCategory.UserCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,10 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Category> categories = new ArrayList<>();
+    private List<UserCategory> userCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<History> histories = new ArrayList<>();
 
 
     @Builder
@@ -60,10 +64,20 @@ public class User {
         this.role = role;
     }
 
-    public void addCategory(Category category) {
-        categories.add(category);
-        category.setUser(this);
+    public static Category rootParent(){
+        return new Category();
     }
 
+    // 연관관계 메서드
+    public void addUserCategory(UserCategory userCategory) {
+        this.userCategories.add(userCategory);
+        userCategory.setUser(this);
+    }
+
+
+    public void addHistory(History history) {
+        this.histories.add(history);
+        history.setUser(this);
+    }
 }
 
