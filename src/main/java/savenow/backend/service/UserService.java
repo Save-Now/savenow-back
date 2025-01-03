@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import savenow.backend.entity.category.CategoryRepository;
 import savenow.backend.entity.user.User;
 import savenow.backend.entity.user.UserRepository;
 import savenow.backend.dto.user.UserReqDto.JoinReqDto;
@@ -20,7 +19,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final BCryptPasswordEncoder passwordEncoder;
 
