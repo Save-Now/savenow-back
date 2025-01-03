@@ -1,12 +1,10 @@
-package savenow.backend.domain.user;
+package savenow.backend.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import savenow.backend.domain.category.Category;
-import savenow.backend.domain.history.History;
-import savenow.backend.domain.userCategory.UserCategory;
+import savenow.backend.entity.history.History;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,15 +44,12 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserCategory> userCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<History> histories = new ArrayList<>();
 
-
     @Builder
-    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role, History history) {
+    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -64,15 +59,6 @@ public class User {
         this.role = role;
     }
 
-    public static Category rootParent(){
-        return new Category();
-    }
-
-    // 연관관계 메서드
-    public void addUserCategory(UserCategory userCategory) {
-        this.userCategories.add(userCategory);
-        userCategory.setUser(this);
-    }
 
 
     public void addHistory(History history) {

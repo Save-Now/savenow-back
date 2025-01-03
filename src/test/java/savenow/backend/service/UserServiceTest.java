@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.user.Gender;
-import savenow.backend.domain.user.User;
-import savenow.backend.domain.user.UserRepository;
+import savenow.backend.entity.user.Gender;
+import savenow.backend.entity.user.User;
+import savenow.backend.entity.user.UserRepository;
 import savenow.backend.dummy.DummyObject;
 
 import java.util.Optional;

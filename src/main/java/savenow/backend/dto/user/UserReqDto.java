@@ -3,9 +3,9 @@ package savenow.backend.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.user.Gender;
-import savenow.backend.domain.user.Role;
-import savenow.backend.domain.user.User;
+import savenow.backend.entity.user.Gender;
+import savenow.backend.entity.user.Role;
+import savenow.backend.entity.user.User;
 
 
 public class UserReqDto {

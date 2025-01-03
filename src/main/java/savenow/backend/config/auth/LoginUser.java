@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import savenow.backend.domain.user.User;
+import savenow.backend.entity.user.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
