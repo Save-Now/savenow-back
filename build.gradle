@@ -39,6 +39,7 @@ dependencies {
 
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'mysql:mysql-connector-java:8.0.32' // 최신 버전 사용
 }
 
 tasks.named('test') {
