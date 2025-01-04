@@ -1,9 +1,9 @@
 package savenow.backend.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import savenow.backend.domain.user.Gender;
-import savenow.backend.domain.user.Role;
-import savenow.backend.domain.user.User;
+import savenow.backend.entity.user.Gender;
+import savenow.backend.entity.user.Role;
+import savenow.backend.entity.user.User;
 
 public class DummyObject {
     protected static User newUser(String username, String email) {
@@ -33,4 +33,34 @@ public class DummyObject {
                 .birth("19991204")
                 .build();
     }
+
+//    protected Category newCategory(String name, Category parent) {
+//        return Category.builder()
+//                .name(name)
+//                .parent(parent)
+//                .build();
+//    }
+//
+//    protected Category newMockCategory(Long id, String name, Category parent) {
+//        return Category.builder()
+//                .id(id)
+//                .name(name)
+//                .parent(parent)
+//                .build();
+//    }
+//
+//    protected UserCategory newUserCategory(Category category, User user) {
+//        return UserCategory.builder()
+//                .category(category)
+//                .user(user)
+//                .build();
+//    }
+//
+//    protected UserCategory newMockUserCategory(Long id, Category category, User user) {
+//        return UserCategory.builder()
+//                .id(id)
+//                .category(category)
+//                .user(user)
+//                .build();
+//    }
 }

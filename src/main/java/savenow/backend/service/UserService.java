@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import savenow.backend.domain.user.User;
-import savenow.backend.domain.user.UserRepository;
+import savenow.backend.entity.user.User;
+import savenow.backend.entity.user.UserRepository;
 import savenow.backend.dto.user.UserReqDto.JoinReqDto;
 import savenow.backend.dto.user.UserResDto.JoinResDto;
 import savenow.backend.handler.exception.CustomApiException;
@@ -43,6 +43,8 @@ public class UserService {
         // 패스워드 인코딩 + 회원가입
         User newUser = userRepository.save(joinReqDto.toEntity(passwordEncoder));
 
+        // 기본 카테고리 설정
+
         // DTO 응답
         return new JoinResDto(newUser);
     }
@@ -63,6 +65,8 @@ public class UserService {
         }
         return 0;
     }
+
+
 
 
 

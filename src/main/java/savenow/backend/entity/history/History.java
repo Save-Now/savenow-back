@@ -1,27 +1,24 @@
-package savenow.backend.domain.history;
+package savenow.backend.entity.history;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import savenow.backend.domain.user.User;
+import lombok.Setter;
+import savenow.backend.entity.user.User;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "history_tb")
 public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column
     private Long amount;
 
@@ -31,12 +28,6 @@ public class History {
     @Column
     private LocalDateTime date;
 
-    @CreatedDate //Insert
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-    @LastModifiedDate //Update
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -48,8 +39,6 @@ public class History {
         this.amount = amount;
         this.memo = memo;
         this.date = date;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.user = user;
     }
 }

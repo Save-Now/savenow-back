@@ -2,8 +2,8 @@ package savenow.backend.config.jwt;
 
 import org.junit.jupiter.api.Test;
 import savenow.backend.config.auth.LoginUser;
-import savenow.backend.domain.user.Role;
-import savenow.backend.domain.user.User;
+import savenow.backend.entity.user.Role;
+import savenow.backend.entity.user.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

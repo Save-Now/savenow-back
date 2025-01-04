@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import savenow.backend.domain.user.UserRepository;
+import savenow.backend.entity.user.UserRepository;
 import savenow.backend.dto.user.UserReqDto.LoginReqDto;
 import savenow.backend.dummy.DummyObject;
 

@@ -1,4 +1,4 @@
-package savenow.backend.domain.user;
+package savenow.backend.entity.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username); //JPA NamedQuery로 동작
 
     Optional<User> findByEmail(String email);
+
 }
 
