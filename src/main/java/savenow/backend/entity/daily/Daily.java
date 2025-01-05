@@ -11,7 +11,8 @@ import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Table(name = "daily_tb")
 public class Daily {
 
@@ -19,25 +20,35 @@ public class Daily {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private LocalDate date;
 
-    @Column
-    private Long income;
+    @Column(nullable = false)
+    private Long income = 0L;
 
-    @Column
-    private Long expense;
+    @Column(nullable = false)
+    private Long expense = 0L;
+
+    @Column(nullable = false)
+    private String feedback;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    public Daily(Long id, LocalDate date, Long income, Long expense, User user) {
+    public Daily(Long id, LocalDate date, Long income, Long expense, String feedback, User user) {
         this.id = id;
         this.date = date;
         this.income = income;
         this.expense = expense;
+        this.feedback = feedback;
         this.user = user;
+    }
+
+    public void update(Long income, Long expense, String feedback) {
+        this.income = income;
+        this.expense = expense;
+        this.feedback = feedback;
     }
 }
