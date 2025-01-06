@@ -10,5 +10,8 @@ public class DailyReqDto {
         private String year;
         private String Month;
         private Long userId;
+        private boolean includeIncome = true;
+        private boolean includeExpense = true;
+        private boolean includeFeedback = true;
     }
 }

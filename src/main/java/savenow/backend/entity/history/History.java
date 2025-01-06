@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import savenow.backend.entity.daily.Daily;
 import savenow.backend.entity.user.User;
 
 import java.time.LocalDateTime;
@@ -23,9 +24,6 @@ public class History {
     private Long amount;
 
     @Column
-    private String memo;
-
-    @Column
     private LocalDateTime date;
 
 
@@ -33,12 +31,16 @@ public class History {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DAILY_ID")
+    private Daily daily;
+
     @Builder
-    public History(Long id, Long amount, String memo, LocalDateTime date, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+    public History(Long id, Long amount, LocalDateTime date, User user, Daily daily) {
         this.id = id;
         this.amount = amount;
-        this.memo = memo;
         this.date = date;
         this.user = user;
+        this.daily = daily;
     }
 }

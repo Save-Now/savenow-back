@@ -20,86 +20,31 @@ public class DailyService {
 
     private final UserRepository userRepository;
 
-    public MonthlyIncomeData getMonthIncome(GetDailyReq getDailyReq) {
-
-        String year = getDailyReq.getYear();
-        String month = getDailyReq.getMonth();
-        User user = userRepository.findById(getDailyReq.getUserId()).orElseThrow(
-                () ->  new CustomApiException("회원을 찾을 수 없습니다.")
-        );
-
-        List<Daily> dailyList = user.getDailyList();
-
-        Map<String, DailyIncomeData> dailyDataMap = new HashMap<>();
-
-        for (Daily daily : dailyList) {
-            if (year.equals(String.valueOf(daily.getDate().getYear()))
-                    && month.equals(String.valueOf(daily.getDate().getMonth()))
-            ) {
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
-                String date = daily.getDate().format(formatter);
-                Long amount = daily.getIncome();
-                DailyIncomeData dailyIncomeData = new DailyIncomeData(date, amount);
-
-                dailyDataMap.put(date, dailyIncomeData);
-            }
-        }
-
-        return new MonthlyIncomeData(dailyDataMap);
-    }
-
-
-    public MonthlyExpenseData getMonthExpense(GetDailyReq getDailyReq) {
-
-        String year = getDailyReq.getYear();
-        String month = getDailyReq.getMonth();
-        User user = userRepository.findById(getDailyReq.getUserId()).orElseThrow(
-                () ->  new CustomApiException("회원을 찾을 수 없습니다.")
-        );
-
-        List<Daily> dailyList = user.getDailyList();
-
-        Map<String, DailyExpenseData> dailyDataMap = new HashMap<>();
-
-        for (Daily daily : dailyList) {
-            if (year.equals(String.valueOf(daily.getDate().getYear()))
-                    && month.equals(String.valueOf(daily.getDate().getMonth()))) {
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
-                String date = daily.getDate().format(formatter);
-                Long amount = daily.getExpense();
-                DailyExpenseData dailyExpensedata = new DailyExpenseData(date, amount);
-
-                dailyDataMap.put(date, dailyExpensedata);
-            }
-        }
-
-        return new MonthlyExpenseData(dailyDataMap);
-    }
-
-
     public MonthlyData getMonthlydata(GetDailyReq getDailyReq) {
 
-        String year = getDailyReq.getYear();
-        String month = getDailyReq.getMonth();
+        // 유저 검색
         User user = userRepository.findById(getDailyReq.getUserId()).orElseThrow(
                 () ->  new CustomApiException("회원을 찾을 수 없습니다.")
         );
 
+        // 유저에 포함돼 있는 daillList 추출
         List<Daily> dailyList = user.getDailyList();
 
+        // dailyData를 정렬할 hash 테이블
         Map<String, DailyData> dailyDataMap = new HashMap<>();
 
         for (Daily daily : dailyList) {
-            if (year.equals(String.valueOf(daily.getDate().getYear()))
-                    && month.equals(String.valueOf(daily.getDate().getMonth()))) {
+            if (checkDate(daily,getDailyReq)) {
 
+                // 날짜 형식
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
                 String date = daily.getDate().format(formatter);
-                Long income = daily.getIncome();
-                Long expense = daily.getExpense();
-                DailyData dailyData = new DailyData(date, income, expense);
+
+                // 각 데이터의 응답 여부에 따른 null 값 혹은 데이터 생성
+                Long income = getDailyReq.isIncludeIncome() ? daily.getIncome() : null;
+                Long expense = getDailyReq.isIncludeExpense() ? daily.getExpense() : null;
+                String feedback = getDailyReq.isIncludeFeedback() ? daily.getFeedback() : null;
+                DailyData dailyData = new DailyData(date, income, expense,feedback);
 
                 dailyDataMap.put(date, dailyData);
             }
@@ -109,5 +54,12 @@ public class DailyService {
     }
 
 
+    // 날짜가 같은지 확인하는 로직
+    public boolean checkDate(Daily daily,GetDailyReq getDailyReq) {
+        String year = getDailyReq.getYear();
+        String month = getDailyReq.getMonth();
+        return year.equals(String.valueOf(daily.getDate().getYear()))
+                && month.equals(String.valueOf(daily.getDate().getMonth()));
+    }
 
 }
