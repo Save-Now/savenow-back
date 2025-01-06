@@ -27,8 +27,7 @@ public class   UserController {
 
     @GetMapping("/join/emailCheck")
     public ResponseEntity<?> emailCheck(@RequestParam  EmailCheckDto emailCheckDto) {
-        int ed = userService.emailDuplicateCheck(emailCheckDto.getEmail());
-        if(ed == 1) {
+        if(userService.emailDuplicateCheck(emailCheckDto.getEmail())) {
             return new ResponseEntity<>(new ResponseDto<>(-1,"이메일 중복 검사 실패",null),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new ResponseDto<>(1, "이메일 중복 검사 성공", null), HttpStatus.OK);
@@ -36,8 +35,7 @@ public class   UserController {
 
     @GetMapping("/join/usernameCheck")
     public ResponseEntity<?> usernameCheck(@RequestParam NameCheckDto nameCheckDto) {
-        int nd = userService.nameDuplicateCheck(nameCheckDto.getUsername());
-        if (nd == 1) {
+        if (userService.nameDuplicateCheck(nameCheckDto.getUsername())) {
             return new ResponseEntity<>(new ResponseDto<>(-1, "닉네임 중복 검사 실패", null), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new ResponseDto<>(1, "닉네임 중복 검사 성공", null), HttpStatus.OK);
