@@ -25,9 +25,11 @@ public class DailyResDto {
 
     @Getter @Setter
     public static class MonthlyData {
+        private String date;
         private Map<String, DailyData> days;
 
-        public MonthlyData(Map<String, DailyData> days) {
+        public MonthlyData(String date,Map<String, DailyData> days) {
+            this.date = date;
             this.days = days;
         }
     }

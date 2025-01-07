@@ -8,7 +8,7 @@ import lombok.Setter;
 import savenow.backend.entity.daily.Daily;
 import savenow.backend.entity.user.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
@@ -18,13 +18,18 @@ public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "history_id")
     private Long id;
 
     @Column
     private Long amount;
 
     @Column
-    private LocalDateTime date;
+    private LocalDate date;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private HistoryEnum type; // 수입(INCOME) 또는 지출(EXPENSE)
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,10 +41,11 @@ public class History {
     private Daily daily;
 
     @Builder
-    public History(Long id, Long amount, LocalDateTime date, User user, Daily daily) {
+    public History(Long id, Long amount, LocalDate date, HistoryEnum type, User user, Daily daily) {
         this.id = id;
         this.amount = amount;
         this.date = date;
+        this.type = type;
         this.user = user;
         this.daily = daily;
     }
