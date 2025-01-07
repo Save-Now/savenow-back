@@ -6,8 +6,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import savenow.backend.config.auth.LoginUser;
-import savenow.backend.domain.Role;
-import savenow.backend.domain.User;
+import savenow.backend.entity.user.Role;
+import savenow.backend.entity.user.User;
 
 import java.util.Date;
 

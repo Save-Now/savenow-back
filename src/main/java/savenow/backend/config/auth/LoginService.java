@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import savenow.backend.domain.User;
-import savenow.backend.domain.UserRepository;
+import savenow.backend.entity.user.User;
+import savenow.backend.entity.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -1,9 +1,14 @@
-package savenow.backend.domain;
+package savenow.backend.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import savenow.backend.entity.daily.Daily;
+import savenow.backend.entity.history.History;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 유저 테이블
@@ -40,9 +45,15 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<History> histories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Daily> dailyList = new ArrayList<>();
+
     @Builder
     public User(Long id, String username, String email, String password, String birth, Gender gender, Role role) {
-
         this.id = id;
         this.username = username;
         this.email = email;
@@ -50,6 +61,18 @@ public class User {
         this.birth = birth;
         this.gender = gender;
         this.role = role;
+    }
+
+
+
+    public void addHistory(History history) {
+        this.histories.add(history);
+        history.setUser(this);
+    }
+
+    public void addDaily(Daily daily) {
+        this.dailyList.add(daily);
+        daily.setUser(this);
     }
 }
 

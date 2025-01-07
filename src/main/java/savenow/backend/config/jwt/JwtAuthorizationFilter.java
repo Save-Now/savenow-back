@@ -12,8 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import savenow.backend.config.auth.LoginUser;
-import savenow.backend.config.jwt.JwtProcess;
-import savenow.backend.config.jwt.JwtVO;
 
 import java.io.IOException;
 
