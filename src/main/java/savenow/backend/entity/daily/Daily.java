@@ -20,6 +20,7 @@ public class Daily {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "daily_id")
     private Long id;
 
     @Column
@@ -31,7 +32,7 @@ public class Daily {
     @Column
     private Long expense = 0L;
 
-    @Column(nullable = false)
+    @Column
     private String feedback;
 
     @ManyToOne(fetch = FetchType.LAZY)

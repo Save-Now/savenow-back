@@ -2,9 +2,11 @@ package savenow.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import savenow.backend.dto.daily.DailyReqDto.GetDailyReq;
 import savenow.backend.dto.daily.DailyResDto.*;
 import savenow.backend.entity.daily.Daily;
+import savenow.backend.entity.daily.DailyRepository;
 import savenow.backend.entity.user.User;
 import savenow.backend.entity.user.UserRepository;
 import savenow.backend.handler.exception.CustomApiException;
@@ -19,7 +21,9 @@ import java.util.Map;
 public class DailyService {
 
     private final UserRepository userRepository;
+    private final DailyRepository dailyRepository;
 
+    @Transactional(readOnly = true)
     public MonthlyData getMonthlydata(GetDailyReq getDailyReq) {
 
         // 유저 검색
@@ -28,7 +32,7 @@ public class DailyService {
         );
 
         // 유저에 포함돼 있는 daillList 추출
-        List<Daily> dailyList = user.getDailyList();
+        List<Daily> dailyList = dailyRepository.findByUser(user);
 
         // dailyData를 정렬할 hash 테이블
         Map<String, DailyData> dailyDataMap = new HashMap<>();
@@ -50,7 +54,9 @@ public class DailyService {
             }
         }
 
-        return new MonthlyData(dailyDataMap);
+        String date = getDailyReq.getYear() + "/" + getDailyReq.getMonth();
+
+        return new MonthlyData(date,dailyDataMap);
     }
 
 
@@ -59,7 +65,7 @@ public class DailyService {
         String year = getDailyReq.getYear();
         String month = getDailyReq.getMonth();
         return year.equals(String.valueOf(daily.getDate().getYear()))
-                && month.equals(String.valueOf(daily.getDate().getMonth()));
+                && month.equals(String.valueOf(daily.getDate().getMonthValue()));
     }
 
 }
