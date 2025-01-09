@@ -27,7 +27,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String username; // 유저 이름 (닉네임)
+    private String username; // 유저 이름
 
     @Column(unique = true,nullable = false)
     private String email; // 유저 이메일
@@ -45,6 +45,11 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = true)
+    private String profilePicture; // 프로필 사진 URL
+
+    @Column(nullable = true)
+    private String nickname; // 유저 닉네임
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<History> histories = new ArrayList<>();
@@ -53,7 +58,7 @@ public class User {
     private List<Daily> dailyList = new ArrayList<>();
 
     @Builder
-    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role) {
+    public User(Long id, String username, String email, String password, String birth, Gender gender, Role role, String profilePicture, String nickname) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -61,6 +66,8 @@ public class User {
         this.birth = birth;
         this.gender = gender;
         this.role = role;
+        this.profilePicture = profilePicture;
+        this.nickname = nickname;
     }
 
 
@@ -74,5 +81,19 @@ public class User {
         this.dailyList.add(daily);
         daily.setUser(this);
     }
+
+    public void updateProfile(String profilePicture, String username, String nickname, String birth, String password) {
+        this.profilePicture = profilePicture;
+        this.username = username;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.password = password;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 }
+
 
